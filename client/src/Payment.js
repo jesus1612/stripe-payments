@@ -7,6 +7,15 @@ import { loadStripe } from "@stripe/stripe-js";
 function Payment() {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
+  const [concepts, setConcepts] = useState([]);
+
+  useEffect(() => {
+    fetch("/concepts").then(async (r) => {
+      const data = await r.json();
+      console.log(data);
+      setConcepts(data)
+    });
+  }, []);
 
   useEffect(() => {
     fetch("/config").then(async (r) => {
@@ -27,7 +36,7 @@ function Payment() {
 
   return (
     <>
-      <h1>Paga facilmente con tus tarjetas bancarias o genera tu referencia en oxxo</h1>
+      <h1>Paga por el concepto de reinscripción</h1>
       {clientSecret && stripePromise && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm />

@@ -15,6 +15,31 @@ app.get("/", (req, res) => {
   res.sendFile(path);
 });
 
+app.get("/concepts", (req, res) => {
+  res.send([
+    {
+      currency: "mxn",
+      amount: 19990,
+      payment_method_types: ['card', 'oxxo'],
+      customer: 'cus_ODWRpjqcZdqXfo',
+      metadata: {
+        concepto: "RINC",
+        matricula: "2321323"
+      }
+    },
+    {
+      currency: "mxn",
+      amount: 102290,
+      payment_method_types: ['card', 'oxxo'],
+      customer: 'cus_ODWRpjqcZdqXfo',
+      metadata: {
+        concepto: "CRED",
+        matricula: "2321323"
+      }
+    }
+  ])
+});
+
 app.get("/config", (req, res) => {
   res.send({
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
@@ -27,7 +52,11 @@ app.post("/create-payment-intent", async (req, res) => {
       currency: "mxn",
       amount: 19990,
       payment_method_types: ['card', 'oxxo'],
-      customer: 'cus_ODWRpjqcZdqXfo'
+      customer: 'cus_ODWRpjqcZdqXfo',
+      metadata: {
+        concepto: "RINC",
+        matricula: "2321323"
+      }
     });
 
     // Send publishable key and PaymentIntent details to client
